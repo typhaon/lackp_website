@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Basic HTML Page</title>
+    <link rel="stylesheet" href="home.css" />
+  </head>
+
+  <body>
+    <h1>League of Cool Kickball Professionals (LACKP)</h1>
+
+    <ul>
+      <% @team_list.each do |team| %>
+        <li><a href="/teams/<%="#{team.delete(' ')}"%>"><%="#{team}"%></a></li>
+      <% end %>
+
+    </ul>
+  </body>
+</html>
