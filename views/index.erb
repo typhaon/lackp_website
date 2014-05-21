@@ -10,9 +10,8 @@
 
     <ul>
       <% @team_list.each do |team| %>
-        <li><a href="/teams/<%="#{team.delete(' ')}"%>"><%="#{team}"%></a></li>
+        <li><a href="/teams/<%="#{team}"%>"><%="#{team}"%></a></li>
       <% end %>
-
     </ul>
   </body>
 </html>

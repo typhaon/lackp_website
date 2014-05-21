@@ -13,20 +13,14 @@ end
 
 #create array of unique teams, no repetition
 def unique_teams(teams)
-  team_list = []
-  teams.each do |player_info|
-    while !team_list.include?(player_info["team"]) #team is not in array
-      team_list << player_info["team"]
-    end
-  end
-  team_list
+  teams.map {|player_info| player_info["team"]}.uniq
 end
 
 #create array of hashes containing first_name, last_name, position for people on a specific team
-def team_member_list(teams, team_url)
+def team_member_list(teams, team_title)
   team_members = []
   teams.each do |player_info|
-    if team_url == player_info["team"].delete(' ')
+    if team_title == player_info["team"]
                       #create a hash containing first_name, last_name, position to be put into team_member array
       team_members << {first_name: player_info["first_name"], last_name: player_info["last_name"], position: player_info["position"]}
     end
@@ -34,38 +28,19 @@ def team_member_list(teams, team_url)
   team_members
 end
 
-def team_title(team_list, team_url)
-  title = ""
-  team_list.each do |team|
-    if team_url == team.delete(' ')
-      title = team
-    end
-  end
-  title
-end
-
 #=====================================================
 
 #display homepage with clickable team links
-get '/' do*
-  @teams = export_csv('./public/lackp_starting_rosters.csv')
-  @team_list = unique_teams(@teams)
+get '/' do
+  teams = export_csv('./public/lackp_starting_rosters.csv')
+  @team_list = unique_teams(teams)
   erb :index
 end
 
 get '/teams/:team_name' do
-  @team_url = params[:team_name]
-  @teams = export_csv('./public/lackp_starting_rosters.csv')
-  @team_list = unique_teams(@teams)
+  @team_title = params[:team_name]
+  teams = export_csv('./public/lackp_starting_rosters.csv')
   #array of hashes containing first_name, last_name, position for people on a specific team
-  @team_members = team_member_list(@teams, @team_url)
-  @title = team_title(@team_list, @team_url)
+  @team_members = team_member_list(teams, @team_title)
   erb :show
 end
-
-
-# These lines can be removed since they are using the default values. They've
-# been included to explicitly show the configuration options.
-set :views, File.dirname(__FILE__) + '/views'
-set :public_folder, File.dirname(__FILE__) + '/public'
-

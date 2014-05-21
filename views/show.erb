@@ -7,7 +7,7 @@
 
   <body>
     <h1>
-      Team <%= @title %>
+      Team <%= @team_title %>
     </h1>
     <p>
       <ul>
@@ -15,6 +15,7 @@
             <li><%= "#{team_member[:first_name]} #{team_member[:last_name]}, #{team_member[:position]}" %></li>
         <% end %>
       </ul>
+      <a href="http://localhost:4567/">Back</a>
     </p>
   </body>
 </html>
